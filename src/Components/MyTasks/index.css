@@ -1,0 +1,116 @@
+.main-container {
+  display: flex;
+
+  flex-direction: row;
+}
+
+.input-container {
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  width: 40%;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.tag-List-container {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  background-color: #131213;
+  height: 100vh;
+  background-size: cover;
+  padding: 10px;
+}
+
+.create-heading {
+  text-align: center;
+  width: 80%;
+  color: #f3aa4e;
+}
+.label {
+  color: black;
+  text-align: left;
+}
+.input {
+  background-color: #ffffff;
+  color: black;
+  width: 100%;
+}
+
+.tags-dropdown {
+  background-color: #ffffff;
+  color: black;
+  width: 100%;
+}
+
+.add-button {
+  align-items: center;
+  background-color: #f3aa4e;
+  color: #ffffff;
+  width: 150px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+.heading-tag {
+  color: #ffffff;
+  font-size: 30px;
+}
+
+.tags-lists {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+}
+
+.tag-name-button {
+  background-color: transparent;
+  border-color: transparent;
+  border: 2px solid #f3aa4e;
+
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px 10px 5px 10px;
+}
+
+.added-tasks-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.no-task-head {
+  color: #ffffff;
+  text-align: center;
+}
+
+.task-display {
+  background-color: #1a171d;
+  margin: 5px;
+  padding: 10px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.tags-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+
+.tag-item {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.tag-name {
+  background-color: #f3aa4e;
+  border-radius: 10px;
+  color: #131213;
+  padding: 5px 10px 5px 10px;
+}
