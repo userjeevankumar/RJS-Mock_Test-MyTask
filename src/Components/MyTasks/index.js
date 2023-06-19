@@ -36,7 +36,7 @@ class MyTasks extends Component {
     taskButton: tagsList[0].displayText,
     inputValue: '',
     isFilterActive: false,
-    filteredText: '',
+    filteredText: [],
     selectedFilteredText: '',
   }
 
@@ -49,15 +49,19 @@ class MyTasks extends Component {
   }
 
   onClickFilter = eachItem => {
-    const {isFilterActive} = this.state
-    this.setState({
-      isFilterActive: !isFilterActive,
-      selectedFilteredText: eachItem.displayText,
-    })
+    const {isFilterActive, selectedFilteredText, addedTasks} = this.state
+    if (addedTasks.length > 0) {
+      this.setState({
+        isFilterActive: !isFilterActive,
+        selectedFilteredText: eachItem.displayText,
+      })
+    }
+
     console.log(isFilterActive)
+    console.log(selectedFilteredText)
   }
 
-  getFilteredAppointmentsList = () => {
+  getAddedFilter = () => {
     const {filteredText, selectedFilteredText, isFilterActive} = this.state
     if (isFilterActive) {
       return filteredText.filter(
