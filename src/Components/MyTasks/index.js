@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import {v4 as uuidv4} from 'uuid'
+import {v4} from 'uuid'
 
 import './index.css'
 
@@ -36,8 +36,12 @@ class MyTasks extends Component {
     taskButton: tagsList[0].displayText,
     inputValue: '',
     isFilterActive: false,
-    filteredText: [],
+    filteredTask: [],
     selectedFilteredText: '',
+  }
+
+  componentDidMount = () => {
+    this.renderTasks()
   }
 
   onChangeInput = event => {
@@ -48,49 +52,99 @@ class MyTasks extends Component {
     this.setState({taskButton: event.target.value})
   }
 
-  onClickFilter = eachItem => {
-    const {isFilterActive, selectedFilteredText, addedTasks} = this.state
-    if (addedTasks.length > 0) {
-      this.setState({
-        isFilterActive: !isFilterActive,
-        selectedFilteredText: eachItem.displayText,
-      })
-    }
-
-    console.log(isFilterActive)
+  onChangeSelect = event => {
+    const {selectedFilteredText} = this.state
+    this.setState({selectedFilteredText: event.target.value})
     console.log(selectedFilteredText)
   }
 
-  getAddedFilter = () => {
-    const {filteredText, selectedFilteredText, isFilterActive} = this.state
-    if (isFilterActive) {
-      return filteredText.filter(
-        eachTransaction => eachTransaction.displayText === selectedFilteredText,
+  onClickFilter = () => {
+    const {addedTasks, selectedFilteredText} = this.state
+    if (addedTasks.length > 0) {
+      console.log(addedTasks[0].taskType)
+      console.log(addedTasks[0].item)
+      const newTask = addedTasks.filter(
+        eachSelect => selectedFilteredText === eachSelect.taskType,
+      )
+      this.setState({
+        filteredTask: newTask,
+        isFilterActive: true,
+      })
+    }
+    const {filteredTask} = this.state
+
+    console.log(filteredTask)
+    console.log(selectedFilteredText)
+  }
+
+  /*
+  renderFilteredTags = () => {
+    const {selectedFilteredText, filteredText} = this.state
+
+    const {addedTasks} = this.state
+    const userChoiceObjectList = addedTasks.filter(
+      choice => choice.taskType === selectedFilteredText,
+    )
+    this.setState({filteredText: userChoiceObjectList})
+
+    if (filteredText.length === 0) {
+      return (
+        <ul className="tags-list">
+          {filteredText.map(eachItem => (
+            <li className="task-display" key={eachItem.id}>
+              <p className="tag-item">{eachItem.item}</p>
+              <p className="tag-name">{eachItem.taskType}</p>
+            </li>
+          ))}
+        </ul>
       )
     }
-    return filteredText
-  }
-
-  renderFilteredTags = () => {
-    const addedFilter = this.getAddedFilter()
-
     return (
-      <ul className="tags-list">
-        {addedFilter.map(eachItem => (
-          <li className="task-display" key={eachItem.id}>
-            <p className="tag-item">{eachItem.item}</p>
-            <p className="tag-name">{eachItem.taskType}</p>
-          </li>
-        ))}
-      </ul>
+      <div>
+        {
+          (addedTasks.length !== 0 ? this.renderAddTask() : this.renderTasks(),
+          this.setState({filteredText: ''}))
+        }
+      </div>
     )
   }
+*/
+  /*
+   const renderCategoriesList = () => {
+      const {selectedFilteredText} = this.state
+      return tagsList.map(category => {
+      const onClickCategoryItem = () => changeCategory(
+          this.setState({selectedFilteredText:category.categoryId})
+          )
+      const isActive = category.categoryId === selectedFilteredText
+      const isFilterActive = isActive
+        ? true
+        : false
+
+      return (
+        <li
+          className="category-item"
+          key={category.categoryId}
+          onClick={onClickCategoryItem}
+        >
+          {category.name}
+        </li>
+      )
+    })
+  }
+  
+renderTagsListCategories=()=>{
+       <>
+     <h1 className="heading-tag">Tags</h1>
+      <ul className="categories-list">{renderCategoriesList()}</ul>
+    </>
+} */
 
   onClickAddTask = event => {
     event.preventDefault()
     const {inputValue, taskButton} = this.state
     const addNewItem = {
-      id: uuidv4(),
+      id: v4(),
       item: inputValue,
       taskType: taskButton,
     }
@@ -99,9 +153,13 @@ class MyTasks extends Component {
       addedTasks: [...prevState.addedTasks, addNewItem],
       inputValue: '',
       taskButton: tagsList[0].displayText,
+      isFilterActive: false,
+      selectedFilteredText: '',
+      /* filteredText: [], */
     }))
   }
 
+  /*
   renderAllTasks = () => {
     const {addedTasks} = this.state
     return (
@@ -114,25 +172,61 @@ class MyTasks extends Component {
         ))}
       </ul>
     )
-  }
+  } */
+
+  /* renderAllTasks = () => {
+    const {addedTasks, selectedFilteredText} = this.state
+    if (selectedFilteredText !== '') {
+      const newTask = addedTasks.filter(
+        eachTask => eachTask.taskType === selectedFilteredText,
+      )
+
+      return this.setState({addedTasks: newTask})
+    }
+    return addedTasks
+  } */
 
   renderTasks = () => {
-    const {isFilterActive} = this.state
+    const {filteredTask, isFilterActive, addedTasks} = this.state
+    if (isFilterActive) {
+      return (
+        <ul className="tags-list">
+          {filteredTask.map(eachItem => (
+            <li className="task-display" key={eachItem.optionId}>
+              <p className="tag-item">{eachItem.item}</p>
+              <p className="tag-name">{eachItem.taskType}</p>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
     return (
-      <div>
-        {isFilterActive ? this.renderFilteredTags() : this.renderAllTasks()}
-      </div>
+      <ul className="tags-list">
+        {addedTasks.map(eachItem => (
+          <li className="task-display" key={eachItem.optionId}>
+            <p className="tag-item">{eachItem.item}</p>
+            <p className="tag-name">{eachItem.taskType}</p>
+          </li>
+        ))}
+      </ul>
     )
   }
 
   renderAddTask = () => (
     <div>
-      <h1 className="no-task-head">No Tasks added yet</h1>
+      <p className="no-task-head">No Tasks Added Yet</p>
     </div>
   )
 
   render() {
-    const {addedTasks, taskButton, inputValue} = this.state
+    const {
+      addedTasks,
+      selectedFilteredText,
+      taskButton,
+      inputValue,
+    } = this.state
+    console.log(addedTasks.length)
 
     return (
       <div className="main-container">
@@ -158,7 +252,7 @@ class MyTasks extends Component {
               {tagsList.map(eachOption => (
                 <option
                   className="tags-dropdown"
-                  key={eachOption.id}
+                  key={eachOption.optionId}
                   value={eachOption.value}
                 >
                   {eachOption.displayText}
@@ -180,15 +274,23 @@ class MyTasks extends Component {
             <ul className="tags-lists">
               {tagsList.map(eachItem => (
                 <li className="tag-name-button">
-                  <button onClick={this.onClickFilter} type="button">
+                  <button
+                    key={eachItem.optionId}
+                    value={selectedFilteredText}
+                    onChange={this.onChangeSelect}
+                    onClick={this.onClickFilter}
+                    type="button"
+                  >
                     {eachItem.displayText}
                   </button>
                 </li>
               ))}
             </ul>
           </div>
+
           <div className="added-tasks-container">
             <h1 className="heading-tag">Tasks</h1>
+
             <div>
               {addedTasks.length === 0
                 ? this.renderAddTask()
